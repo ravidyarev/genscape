@@ -32,6 +32,11 @@ FOREIGN KEY ( movie_id ) REFERENCES  movie_master (movie_id   ),
 FOREIGN KEY ( movie_crew_id ) REFERENCES  movie_crew_master (crew_id ),
 FOREIGN KEY ( movie_role_id ) REFERENCES  movie_role_master ( role_id ))
 
+--Monthly table to save previous months movie count
+create table monthly_movie_count (yearmonth datetime, country_cd varchar(5),numberofmovies int,
+FOREIGN KEY ( country_cd) REFERENCES  country_master (country_cd)
+)
+
 PART 2 : Queries:
 1. Which movies were playing on a particular date in a particular country?
 select mm.movie_title from movie_release_info mr join movie_master mm on (mr.movie_id=mm.movie_id) where <filter_date> between release_start_dt and release_end_date and movie_release_country_cd = <filter_country_cd>
@@ -70,3 +75,12 @@ join movie_master mm on (mp.movie_id=mm.movie_id)
 where mm.movie_title = <filter_movie_title>
 and mp.record_date = <filter_record_date>
 
+PART 3: Stored procedure                                                             
+1. Stored procedure to update the monthly table
+CREATE PROCEDURE monthly_update_movie_count  @Build_Month_Year DateTime = ''
+AS
+INSERT INTO monthly_movie_count (yearmonth, country_cd,numberofmovies)
+SELECT @Build_Month_Year ,release_country_cd,count(movie_id)
+from movie_release_info mr
+where @Build_Month_Year between release_start_date and release_end_date 
+GROUP BY @Build_Month_Year ,release_country_cd
