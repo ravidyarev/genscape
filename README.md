@@ -20,3 +20,8 @@ Step 3 :
 Objective : Sample queries for the questions asked
 Code/Script : Table_DDL_and_Select_Queries.sql
 Descripton : The PART 2 of the script lists SQL queries for the asked questions
+
+Step 4 : 
+Objective : A job to appended a table with the count of different movies that were playing during the previous month per country
+Code/Script : Table_DDL_and_Select_Queries.sql
+Description : The PART 3 of the script has the SP to update the table with movie count details for previous month. The SP takes in the build month/year as input. The input gives the flexibilty to run it for any month at any point.
